@@ -64,7 +64,7 @@ router.get('/', (req, res) => {
 
 
 function generateError(res, code, message) {
-    return res.status(400).send({
+    return res.status(code).send({
         "code": code,
         "message": message
     });
