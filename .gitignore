@@ -106,3 +106,5 @@ dist
 
 # Custom
 config.json
+jwtRS256.key
+jwtRS256.key.pub

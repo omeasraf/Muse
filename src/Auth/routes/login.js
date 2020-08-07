@@ -21,7 +21,9 @@ async function login(req, res, collection) {
                             username,
                             password
                         }
-                        const refreshToken = jwt.sign(userData, config.REFRESH_TOKEN_SECRET)
+                        const refreshToken = jwt.sign(userData, config.REFRESH_TOKEN_SECRET, {
+                            expiresIn: config.tokenTimout
+                        })
 
                         collection.updateOne({
                             username
@@ -51,7 +53,8 @@ async function login(req, res, collection) {
                             username,
                             firstname: user.firstname,
                             lastname: user.lastname,
-                            refreshToken
+                            refreshToken,
+                            "expiresIn": config.tokenTimout
                         })
                     } else {
                         return res.status(401).send({

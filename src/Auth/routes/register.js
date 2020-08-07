@@ -3,7 +3,8 @@ const router = express.Router()
 var User = require('../models/users')
 const bcrypt = require('bcrypt')
 const checkEmail = require('../../Validation/email')
-const logger = require('../../logs/logger')
+const logger = require('../../logging/logger')
+const checkReserved = require('../../Validation/reserved')
 const log = new logger();
 router.post('/', async (req, res) => {
 
@@ -21,29 +22,33 @@ router.post('/', async (req, res) => {
     if (password && username && firstname && lastname && birthday && email) {
 
         if (checkEmail(email)) {
-            if (birthday != "Invalid Date") {
-                const hashedPassword = await bcrypt.hash(password, 10)
-                var register = new User();
-                // There probably is a better way of doing this. I will try to clean this up later
-                register.username = username.toLowerCase();
-                register.email = email.toLowerCase();
-                register.password = hashedPassword;
-                register.firstname = firstname;
-                register.lastname = lastname;
-                register.birthday = birthday;
-                register.save((err, saved) => {
-                    if (err) {
+            if (checkReserved(username) == false) {
+                if (birthday != "Invalid Date") {
+                    const hashedPassword = await bcrypt.hash(password, 10)
+                    var register = new User();
+                    // There probably is a better way of doing this. I will try to clean this up later
+                    register.username = username.toLowerCase();
+                    register.email = email.toLowerCase();
+                    register.password = hashedPassword;
+                    register.firstname = firstname;
+                    register.lastname = lastname;
+                    register.birthday = birthday;
+                    register.save((err, saved) => {
+                        if (err) {
 
-                        if (err.code == 11000) {
-                            return generateError(res, 403, "Email/UserName already exists");
+                            if (err.code == 11000) {
+                                return generateError(res, 403, "Email/UserName already exists");
+                            }
+
+                            return res.status(500).send(err)
                         }
-
-                        return res.status(500).send(err)
-                    }
-                    return generateError(res, 200, "Success");
-                })
+                        return generateError(res, 200, "Success");
+                    })
+                } else {
+                    return generateError(res, 400, "Invalid Birthday");
+                }
             } else {
-                return generateError(res, 400, "Invalid Birthday");
+                return generateError(res, 403, "The username you've entered has been reserved by the dev");
             }
         } else {
             return generateError(res, 403, "Please enter a valid email address");
