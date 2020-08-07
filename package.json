@@ -1,0 +1,32 @@
+{
+  "name": "muse",
+  "version": "1.0.0",
+  "description": "A social networking site",
+  "main": "main.js",
+  "scripts": {
+    "devStart": "nodemon src/main.js",
+    "start": "node src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omeasraf/Muse"
+  },
+  "keywords": [
+    "Muse",
+    "Twitter",
+    "Social",
+    "Network"
+  ],
+  "author": "Ome Asraf",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "chalk": "^4.1.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.27"
+  }
+}

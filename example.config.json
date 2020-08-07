@@ -1,0 +1,8 @@
+{
+    "mongodb": {
+        "mongoURi": "mongodb+srv://<Username:Password>@<Cluster>.mongodb.net/<dbName>?retryWrites=true&w=majority",
+        "dbName": "Muse",
+        "collections": "users"
+    },
+    "REFRESH_TOKEN_SECRET": "<Your JWT Token>"
+}
