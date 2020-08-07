@@ -8,15 +8,16 @@ const log = new logger();
 router.post('/', async (req, res) => {
 
     const username = req.body.username;
-
-    if (username && username.length < 4) {
-        return res.status(500).send("Username is too short")
-    }
     const password = req.body.password;
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const birthday = new Date(req.body.birthday);
     const email = req.body.email;
+
+    if (username && username.length < 4) {
+        return res.status(500).send("Username is too short")
+    }
+
     if (password && username && firstname && lastname && birthday && email) {
 
         if (checkEmail(email)) {
